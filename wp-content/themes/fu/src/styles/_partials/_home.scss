@@ -1,0 +1,28 @@
+@mixin border-radius($radius: 20px){
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	border-radius: $radius;
+}
+
+body{ background: white}
+h1{color:$blue}
+a{text-decoration: none;}
+#header{margin: 20px 0 0 5%}
+
+
+#site_content{
+
+	.text{
+		margin: 20px;
+		border: 1px solid #000;
+		padding: 20px;
+	}
+
+
+
+	@include border-radius;
+	background-color:  $grey;
+	li {
+		list-style-type: none;
+	} 
+}

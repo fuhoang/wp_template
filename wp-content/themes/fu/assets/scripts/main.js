@@ -1,0 +1,1 @@
+var test="this is a test",str="The best things in life are free",patt=new RegExp("e"),res=patt.test(str);document.getElementById("demo").innerHTML="Hello Dolly.",(new Date).getHours()<18&&(document.getElementById("demo").innerHTML="Good day!");

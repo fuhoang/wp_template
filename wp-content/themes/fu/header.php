@@ -9,7 +9,7 @@
     <title>Fu's Wordpress template</title>
 
     <!-- Main CSS -->
-    <link href="" rel="stylesheet">
+    <link href="<?php echo get_template_directory_uri() ?>/assets/styles/style.css" rel="stylesheet">
 
     <?php  wp_head(); ?>
   </head>
