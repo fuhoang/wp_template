@@ -7,20 +7,22 @@ const
   dir = {
     src         : 'src/',
     build       : 'assets/',
-    bower       : 'bower_components'
+    bower       : './bower.json'
   },
 
   // Gulp and plugins
-  gulp          = require('gulp'),
-  gutil         = require('gulp-util'),
-  newer         = require('gulp-newer'),
-  imagemin      = require('gulp-imagemin'),
-  sass          = require('gulp-sass'),
-  postcss       = require('gulp-postcss'),
-  deporder      = require('gulp-deporder'),
-  concat        = require('gulp-concat'),
-  stripdebug    = require('gulp-strip-debug'),
-  uglify        = require('gulp-uglify')
+  gulp            = require('gulp'),
+  gutil           = require('gulp-util'),
+  newer           = require('gulp-newer'),
+  imagemin        = require('gulp-imagemin'),
+  sass            = require('gulp-sass'),
+  postcss         = require('gulp-postcss'),
+  deporder        = require('gulp-deporder'),
+  concat          = require('gulp-concat'),
+  stripdebug      = require('gulp-strip-debug'),
+  uglify          = require('gulp-uglify'),
+  gulpFilter      = require('gulp-filter'),
+  mainBowerFiles  = require('gulp-main-bower-files')
 ;
 
 // Browser-sync
@@ -105,6 +107,7 @@ console.log(js.src);
 gulp.task('js', () => {
 
   return gulp.src(js.src)
+    //.pipe(mainBowerFiles())
     .pipe(deporder())
     .pipe(concat(js.filename))
     .pipe(stripdebug())
@@ -153,6 +156,34 @@ gulp.task('watch', ['browsersync'], () => {
   gulp.watch(js.src, ['js']);
 
 });
+
+
+
+gulp.task('main-bower-files', function() {
+
+    var filterJS = gulpFilter('**/*.js', { restore: true });
+    return gulp.src(dir.bower)
+        .pipe(mainBowerFiles({
+                overrides: {
+                    bootstrap: {
+                        main: [
+                            './dist/js/bootstrap.js',
+                            './dist/css/*.min.*',
+                            './dist/fonts/*.*'
+                        ]
+                    }
+                }
+            }))
+        //.pipe(mainBowerFiles([[filter, ]options][, callback]))
+        .pipe(gulp.dest(dir.build + 'libs/'));
+});
+
+
+
+
+
+
+
 
 // default task
 gulp.task('default', ['build', 'watch']);
